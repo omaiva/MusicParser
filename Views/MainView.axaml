@@ -1,0 +1,96 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:MusicParser.ViewModels"
+			 xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="MusicParser.Views.MainView"
+             
+             x:DataType="vm:MainViewModel">
+
+	<Grid RowDefinitions="Auto, Auto, Auto, Auto, *" Margin="15">
+
+		<Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,15">
+
+			<TextBox Grid.Column="0"
+					 Watermark="Вставьте URL плейлиста Amazon..."
+					 VerticalAlignment="Center"
+					 Text="{Binding UrlToParse}"/>
+
+			<Button Grid.Column="1"
+					Content="Парсить"
+					VerticalAlignment="Center"
+					Margin="10,0,0,0"
+					Command="{Binding ParsePlaylistCommand}"/>
+		</Grid>
+
+		<Grid Grid.Row="1"
+          ColumnDefinitions="Auto,*"
+		  ColumnSpacing="15"
+          Margin="0,0,0,10"
+          IsVisible="{Binding !IsLoading}">
+
+			<Border Grid.Column="0"
+					Width="120" Height="120"
+					BorderBrush="Gray" BorderThickness="1">
+				<Image asyncImageLoader:ImageLoader.Source="{Binding AvatarUrl}"
+                   Width="120" Height="120"
+                   Stretch="UniformToFill">
+					<Image.Source>
+						<DrawingImage />
+					</Image.Source>
+				</Image>
+			</Border>
+
+			<StackPanel Grid.Column="1" Spacing="5" VerticalAlignment="Top">
+				<TextBlock Text="{Binding PlaylistName}"
+						   FontSize="20"
+						   FontWeight="Bold"
+						   TextWrapping="Wrap"/>
+				<TextBlock Text="{Binding PlaylistDescription}"
+						   FontSize="14"
+						   Opacity="0.8"
+						   TextWrapping="Wrap"/>
+			</StackPanel>
+		</Grid>
+
+
+		<ProgressBar Grid.Row="2"
+					 IsIndeterminate="True"
+					 IsVisible="{Binding IsLoading}"
+					 Margin="0,10"/>
+
+
+		<Grid Grid.Row="3"
+			  ColumnDefinitions="4*, 3*, 3*, Auto"
+			  Margin="5,15,5,5"
+			  IsVisible="{Binding !IsLoading}">
+
+			<TextBlock Grid.Column="0" Text="Title" FontWeight="Bold"/>
+			<TextBlock Grid.Column="1" Text="Artist" FontWeight="Bold"/>
+			<TextBlock Grid.Column="2" Text="Album" FontWeight="Bold"/>
+			<TextBlock Grid.Column="3" Text="Description" FontWeight="Bold" HorizontalAlignment="Right"/>
+		</Grid>
+
+
+		<ListBox Grid.Row="4"
+				 ItemsSource="{Binding Songs}"
+				 IsVisible="{Binding !IsLoading}">
+
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Grid ColumnDefinitions="4*, 3*, 3*, Auto" Margin="5,3">
+
+						<TextBlock Grid.Column="0" Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+						<TextBlock Grid.Column="1" Text="{Binding Artist}" TextTrimming="CharacterEllipsis" Margin="5,0"/>
+						<TextBlock Grid.Column="2" Text="{Binding Album}" TextTrimming="CharacterEllipsis" Margin="5,0"/>
+						<TextBlock Grid.Column="3" Text="{Binding Duration}" HorizontalAlignment="Right" Margin="10,0,0,0"/>
+
+					</Grid>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+	</Grid>
+</UserControl>

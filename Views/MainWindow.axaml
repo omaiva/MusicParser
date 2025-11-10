@@ -1,0 +1,14 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="using:MusicParser.Views"
+		xmlns:vm="using:MusicParser.ViewModels"
+        Width="800"
+		Height="600"
+		CanResize="False"
+		x:Class="MusicParser.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Amazon Music Parser">
+
+	<v:MainView />
+</Window>

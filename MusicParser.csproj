@@ -40,4 +40,11 @@
       <DependentUpon>MainView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
+
+	<Target Name="InstallPlaywrightBrowsers" AfterTargets="Build">
+		<Exec Command="pwsh -ExecutionPolicy Bypass bin/$(Configuration)/net9.0/playwright.ps1 install"
+			Condition="'$(OS)' == 'Windows_NT'" />
+		<Exec Command="bash bin/$(Configuration)/net9.0/playwright.sh install"
+			Condition="'$(OS)' == 'Unix'" />
+	</Target>
 </Project>
